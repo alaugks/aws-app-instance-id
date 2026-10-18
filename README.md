@@ -2,7 +2,7 @@
 
 This package provides a unique instance ID for applications running on AWS Elastic Beanstalk (EC2) or AWS Fargate, e.g. to tell the instances of a horizontally scaled application apart in logs, caches or job locks.
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.alaugks/instance-id-aws.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.alaugks/instance-id-aws)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.alaugks/aws-instance-id.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.alaugks/aws-instance-id)
 
 ## Table of Contents
 
@@ -39,7 +39,7 @@ An instance service determines the instance ID for the platform the application 
 ```xml
 <dependency>
     <groupId>io.github.alaugks</groupId>
-    <artifactId>instance-id-aws</artifactId>
+    <artifactId>aws-instance-id</artifactId>
     <version>0.1.0</version>
 </dependency>
 ```
@@ -47,7 +47,7 @@ An instance service determines the instance ID for the platform the application 
 ### Gradle
 
 ```text
-implementation group: 'io.github.alaugks', name: 'instance-id-aws', version: '0.1.0'
+implementation group: 'io.github.alaugks', name: 'aws-instance-id', version: '0.1.0'
 ```
 
 ## Instance Services
