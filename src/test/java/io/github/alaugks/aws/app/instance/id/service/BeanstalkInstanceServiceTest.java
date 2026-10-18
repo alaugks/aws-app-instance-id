@@ -28,6 +28,7 @@ class BeanstalkInstanceServiceTest {
     private HttpClient client;
     private int tokenStatus;
     private final List<String> requests = new ArrayList<>();
+    private final List<String> hosts = new ArrayList<>();
     private String instanceIdTokenHeader;
     private final CountDownLatch release = new CountDownLatch(1);
 
@@ -38,10 +39,12 @@ class BeanstalkInstanceServiceTest {
         this.server = HttpServer.create(new InetSocketAddress(InetAddress.getLoopbackAddress(), 0), 0);
         this.server.createContext("/latest/api/token", exchange -> {
             this.requests.add(exchange.getRequestMethod() + " " + exchange.getRequestURI().getPath());
+            this.hosts.add(exchange.getRequestHeaders().getFirst("Host"));
             respond(exchange, this.tokenStatus, "test-token");
         });
         this.server.createContext("/latest/meta-data/instance-id", exchange -> {
             this.requests.add(exchange.getRequestMethod() + " " + exchange.getRequestURI().getPath());
+            this.hosts.add(exchange.getRequestHeaders().getFirst("Host"));
             this.instanceIdTokenHeader = exchange.getRequestHeaders().getFirst("X-aws-ec2-metadata-token");
             respond(exchange, 200, "i-1234567890abcdef0");
         });
@@ -68,6 +71,15 @@ class BeanstalkInstanceServiceTest {
             "GET /latest/meta-data/instance-id"
         );
         assertThat(this.instanceIdTokenHeader).isEqualTo("test-token");
+    }
+
+    @Test
+    void test_instanceId_shouldUseMetadataServiceAddress() {
+        BeanstalkInstanceService service = BeanstalkInstanceService.builder().httpClient(this.client).build();
+
+        service.instanceId();
+
+        assertThat(this.hosts).containsExactly("169.254.169.254", "169.254.169.254");
     }
 
     @Test

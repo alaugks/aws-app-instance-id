@@ -94,8 +94,6 @@ public class BeanstalkInstanceService implements InstanceServiceInterface {
 
 		private Duration timeout = DEFAULT_TIMEOUT;
 
-		private String host = "169.254.169.254";
-
 		private Builder() {
 		}
 
@@ -117,11 +115,6 @@ public class BeanstalkInstanceService implements InstanceServiceInterface {
 			return this;
 		}
 
-		Builder useIPv6() {
-			this.host = "[fd00:ec2::254]";
-			return this;
-		}
-
 		/**
 		 * Builds the {@link BeanstalkInstanceService}.
 		 *
@@ -133,13 +126,13 @@ public class BeanstalkInstanceService implements InstanceServiceInterface {
 				: HttpClient.newBuilder().connectTimeout(this.timeout).build();
 
 			HttpRequest.Builder token = HttpRequest.newBuilder()
-				.uri(URI.create("http://" + host + "/latest/api/token"))
+				.uri(URI.create("http://169.254.169.254/latest/api/token"))
 				.header("X-aws-ec2-metadata-token-ttl-seconds", "21600")
 				.timeout(this.timeout)
 				.PUT(HttpRequest.BodyPublishers.noBody());
 
 			HttpRequest.Builder instanceId = HttpRequest.newBuilder()
-				.uri(URI.create("http://" + host + "/latest/meta-data/instance-id"))
+				.uri(URI.create("http://169.254.169.254/latest/meta-data/instance-id"))
 				.timeout(this.timeout)
 				.GET();
 
