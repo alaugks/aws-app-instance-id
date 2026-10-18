@@ -10,11 +10,11 @@ import java.util.function.Function;
  */
 public class InstanceService {
 
-	private final InstanceServiceInterface instanceService;
+	private final InstanceServiceInterface service;
 	private final Function<InstanceIdAWSException, String> fallback;
 
-	private InstanceService(InstanceServiceInterface instanceService, Function<InstanceIdAWSException, String> fallback) {
-		this.instanceService = instanceService;
+	private InstanceService(InstanceServiceInterface service, Function<InstanceIdAWSException, String> fallback) {
+		this.service = service;
 		this.fallback = fallback;
 	}
 
@@ -37,7 +37,7 @@ public class InstanceService {
 	 */
 	public String instanceId() {
 		try {
-			return this.instanceService.instanceId();
+			return this.service.instanceId();
 		} catch (InstanceIdAWSException e) {
 			if (this.fallback == null) {
 				throw e;

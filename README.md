@@ -1,4 +1,4 @@
-# Instance ID for AWS
+# App Instance ID for AWS
 
 This package provides a unique instance ID for applications running on AWS Elastic Beanstalk (EC2) or AWS Fargate, e.g. to tell the instances of a horizontally scaled application apart in logs, caches or job locks.
 
