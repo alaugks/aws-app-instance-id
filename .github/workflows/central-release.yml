@@ -21,10 +21,10 @@ jobs:
           java-version: '17'
           check-latest: true
           server-id: 'central'
-          server-username: 'CENTRAL_USERNAME'
-          server-password: 'CENTRAL_TOKEN'
+          server-username-env-var: 'CENTRAL_USERNAME'
+          server-password-env-var: 'CENTRAL_PASSWORD'
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: 'MAVEN_GPG_PASSPHRASE'
+          gpg-passphrase-env-var: 'MAVEN_GPG_PASSPHRASE'
           cache: 'maven'
 
       - name: Test and check coverage
@@ -37,4 +37,4 @@ jobs:
         env:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
-          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
