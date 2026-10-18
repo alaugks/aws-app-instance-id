@@ -33,7 +33,7 @@ jobs:
 
       - name: Build & Deploy
         run: |
-          mvn -U -B -Daether.connector.http.preemptiveAuth=true clean deploy -P release
+          mvn -U -B -Daether.connector.http.preemptiveAuth=true -Dmaven.repository.credentialScope=id clean deploy -P release
         env:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
