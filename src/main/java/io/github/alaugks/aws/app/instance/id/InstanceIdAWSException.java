@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.alaugks.aws.instance;
+package io.github.alaugks.aws.app.instance.id;
 
 /**
  * Thrown when the instance ID cannot be determined, e.g. because the AWS metadata service

@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.alaugks.aws.instance.service;
+package io.github.alaugks.aws.app.instance.id.service;
 
 import com.sun.net.httpserver.HttpServer;
-import io.github.alaugks.aws.instance.InstanceIdAWSException;
-import io.github.alaugks.aws.instance.InstanceService;
+import io.github.alaugks.aws.app.instance.id.InstanceIdAWSException;
+import io.github.alaugks.aws.app.instance.id.InstanceService;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;

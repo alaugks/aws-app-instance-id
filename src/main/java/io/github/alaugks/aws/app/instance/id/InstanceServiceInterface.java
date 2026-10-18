@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.alaugks.aws.instance;
+package io.github.alaugks.aws.app.instance.id;
 
 /**
  * Determines the ID of the instance the application is running on.

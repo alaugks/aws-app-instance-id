@@ -2,7 +2,7 @@
 
 This package provides a unique instance ID for applications running on AWS Elastic Beanstalk (EC2) or AWS Fargate, e.g. to tell the instances of a horizontally scaled application apart in logs, caches or job locks.
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.alaugks/aws-instance-id.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.alaugks/aws-instance-id)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.alaugks/aws-app-instance-id.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.alaugks/aws-app-instance-id)
 
 ## Table of Contents
 
@@ -39,7 +39,7 @@ An instance service determines the instance ID for the platform the application 
 ```xml
 <dependency>
     <groupId>io.github.alaugks</groupId>
-    <artifactId>aws-instance-id</artifactId>
+    <artifactId>aws-app-instance-id</artifactId>
     <version>0.1.0</version>
 </dependency>
 ```
@@ -47,7 +47,7 @@ An instance service determines the instance ID for the platform the application 
 ### Gradle
 
 ```text
-implementation group: 'io.github.alaugks', name: 'aws-instance-id', version: '0.1.0'
+implementation group: 'io.github.alaugks', name: 'aws-app-instance-id', version: '0.1.0'
 ```
 
 ## Instance Services
@@ -148,9 +148,9 @@ InstanceService withFallback = InstanceService
 ### Beanstalk
 
 ```java
-import io.github.alaugks.aws.instance.InstanceService;
-import io.github.alaugks.aws.instance.service.BeanstalkInstanceService;
-import io.github.alaugks.aws.instance.service.MockInstanceService;
+import io.github.alaugks.aws.app.instance.id.InstanceService;
+import io.github.alaugks.aws.app.instance.id.service.BeanstalkInstanceService;
+import io.github.alaugks.aws.app.instance.id.service.MockInstanceService;
 import java.util.UUID;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -188,9 +188,9 @@ public class AwsInstanceConfig {
 ### Fargate
 
 ```java
-import io.github.alaugks.aws.instance.InstanceService;
-import io.github.alaugks.aws.instance.service.FargateInstanceService;
-import io.github.alaugks.aws.instance.service.MockInstanceService;
+import io.github.alaugks.aws.app.instance.id.InstanceService;
+import io.github.alaugks.aws.app.instance.id.service.FargateInstanceService;
+import io.github.alaugks.aws.app.instance.id.service.MockInstanceService;
 import java.util.UUID;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

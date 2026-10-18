@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.alaugks.aws.instance;
+package io.github.alaugks.aws.app.instance.id;
 
 import java.util.function.Function;
 

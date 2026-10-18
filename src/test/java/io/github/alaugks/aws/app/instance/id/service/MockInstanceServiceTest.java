@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.alaugks.aws.instance.service;
+package io.github.alaugks.aws.app.instance.id.service;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.alaugks.aws.instance.service;
+package io.github.alaugks.aws.app.instance.id.service;
 
-import io.github.alaugks.aws.instance.InstanceServiceInterface;
+import io.github.alaugks.aws.app.instance.id.InstanceServiceInterface;
 
 /**
  * {@link InstanceServiceInterface} that returns a configured instance ID.
