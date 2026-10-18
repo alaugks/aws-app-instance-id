@@ -132,7 +132,7 @@ InstanceService withFallback = InstanceService
     )
     .fallback(e -> {
         log.warn("Could not determine instance ID", e);
-        return "aws-fallback-" + UUID.randomUUID();
+        return "instance-" + UUID.randomUUID();
     })
     .build();
 ```
@@ -166,6 +166,10 @@ public class AwsInstanceConfig {
             .builder(
                 BeanstalkInstanceService.builder().build()
             )
+            .fallback(e -> {
+                log.warn("Could not determine instance ID", e);
+                return "instance-" + UUID.randomUUID();
+            })
             .build();
     }
 
@@ -202,6 +206,10 @@ public class AwsInstanceConfig {
             .builder(
                 FargateInstanceService.builder().build()
             )
+            .fallback(e -> {
+                log.warn("Could not determine instance ID", e);
+                return "instance-" + UUID.randomUUID();
+            })
             .build();
     }
 
