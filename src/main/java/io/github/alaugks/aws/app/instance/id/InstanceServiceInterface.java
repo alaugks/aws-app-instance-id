@@ -11,7 +11,7 @@ public interface InstanceServiceInterface {
 	 * Returns the instance ID.
 	 *
 	 * @return the instance ID
-	 * @throws InstanceIdAWSException if the instance ID cannot be determined
+	 * @throws AWSInstanceIdException if the instance ID cannot be determined
 	 */
 	String instanceId();
 }

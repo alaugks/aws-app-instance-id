@@ -3,7 +3,7 @@
 package io.github.alaugks.aws.app.instance.id.service;
 
 import com.sun.net.httpserver.HttpServer;
-import io.github.alaugks.aws.app.instance.id.InstanceIdAWSException;
+import io.github.alaugks.aws.app.instance.id.AWSInstanceIdException;
 import io.github.alaugks.aws.app.instance.id.InstanceService;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -164,7 +164,7 @@ class FargateInstanceServiceTest {
         FargateInstanceService service = FargateInstanceService.builder().taskRequest(request).build();
 
         assertThatThrownBy(service::instanceId)
-            .isInstanceOf(InstanceIdAWSException.class)
+            .isInstanceOf(AWSInstanceIdException.class)
             .hasMessageContaining("500");
     }
 
@@ -174,7 +174,7 @@ class FargateInstanceServiceTest {
         FargateInstanceService service = FargateInstanceService.builder().build();
 
         assertThatThrownBy(service::instanceId)
-            .isInstanceOf(InstanceIdAWSException.class)
+            .isInstanceOf(AWSInstanceIdException.class)
             .hasMessageContaining("ECS_CONTAINER_METADATA_URI_V4");
     }
 

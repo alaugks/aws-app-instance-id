@@ -3,7 +3,7 @@
 package io.github.alaugks.aws.app.instance.id.service;
 
 import com.sun.net.httpserver.HttpServer;
-import io.github.alaugks.aws.app.instance.id.InstanceIdAWSException;
+import io.github.alaugks.aws.app.instance.id.AWSInstanceIdException;
 import io.github.alaugks.aws.app.instance.id.InstanceService;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -88,7 +88,7 @@ class BeanstalkInstanceServiceTest {
         BeanstalkInstanceService service = BeanstalkInstanceService.builder().httpClient(this.client).build();
 
         assertThatThrownBy(service::instanceId)
-            .isInstanceOf(InstanceIdAWSException.class)
+            .isInstanceOf(AWSInstanceIdException.class)
             .hasMessageContaining("500");
         assertThat(this.requests).containsExactly("PUT /latest/api/token");
     }
@@ -99,7 +99,7 @@ class BeanstalkInstanceServiceTest {
         BeanstalkInstanceService service = BeanstalkInstanceService.builder().httpClient(this.client).build();
 
         assertThatThrownBy(service::instanceId)
-            .isInstanceOf(InstanceIdAWSException.class)
+            .isInstanceOf(AWSInstanceIdException.class)
             .hasCauseInstanceOf(IOException.class);
     }
 

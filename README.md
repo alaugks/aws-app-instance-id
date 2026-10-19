@@ -80,9 +80,9 @@ BeanstalkInstanceService.builder().build();
 
 Retrieves the task ID of the ECS task via the [ECS Task Metadata Endpoint version 4](https://docs.aws.amazon.com/en_us/AmazonECS/latest/developerguide/task-metadata-endpoint-v4-fargate.html). Fargate has no EC2 instance ID, the task is the unit that identifies an instance of the application.
 
-ECS sets the environment variable `ECS_CONTAINER_METADATA_URI_V4` in every container. The service reads `GET ${ECS_CONTAINER_METADATA_URI_V4}/task` and returns the last segment of the `TaskARN` (e.g. `0123456789abcdef` from `arn:aws:ecs:eu-central-1:123456789012:task/my-cluster/0123456789abcdef`). A response with a status other than `200` or without `TaskARN` is treated as an error and throws an `InstanceIdAWSException`.
+ECS sets the environment variable `ECS_CONTAINER_METADATA_URI_V4` in every container. The service reads `GET ${ECS_CONTAINER_METADATA_URI_V4}/task` and returns the last segment of the `TaskARN` (e.g. `0123456789abcdef` from `arn:aws:ecs:eu-central-1:123456789012:task/my-cluster/0123456789abcdef`). A response with a status other than `200` or without `TaskARN` is treated as an error and throws an `AWSInstanceIdException`.
 
-If the environment variable is not set (the application does not run on ECS), an `InstanceIdAWSException` is thrown. Use `MockInstanceService` or the fallback of `InstanceService` for local development.
+If the environment variable is not set (the application does not run on ECS), an `AWSInstanceIdException` is thrown. Use `MockInstanceService` or the fallback of `InstanceService` for local development.
 
 Created via `FargateInstanceService.builder()`. The request to the metadata endpoint has a timeout of 1 second by default.
 
@@ -113,12 +113,12 @@ MockInstanceService.builder("mock-instance-id").build();
 
 ## InstanceService and Error Handling
 
-The instance services throw an `InstanceIdAWSException` if the instance ID cannot be determined, including when the timeout is exceeded. It is an unchecked exception (`RuntimeException`) and, where available, carries the original error as cause. The library does not log.
+The instance services throw an `AWSInstanceIdException` if the instance ID cannot be determined, including when the timeout is exceeded. It is an unchecked exception (`RuntimeException`) and, where available, carries the original error as cause. The library does not log.
 
 `InstanceService` wraps an instance service and optionally accepts a fallback via `fallback(...)`. The fallback receives the exception and returns the ID to use instead:
 
 ```java
-// Throws InstanceIdAWSException if the ID cannot be determined
+// Throws AWSInstanceIdException if the ID cannot be determined
 InstanceService strict = InstanceService
     .builder(
         BeanstalkInstanceService.builder().build()

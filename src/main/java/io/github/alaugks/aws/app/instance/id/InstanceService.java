@@ -11,9 +11,9 @@ import java.util.function.Function;
 public class InstanceService {
 
 	private final InstanceServiceInterface service;
-	private final Function<InstanceIdAWSException, String> fallback;
+	private final Function<AWSInstanceIdException, String> fallback;
 
-	private InstanceService(InstanceServiceInterface service, Function<InstanceIdAWSException, String> fallback) {
+	private InstanceService(InstanceServiceInterface service, Function<AWSInstanceIdException, String> fallback) {
 		this.service = service;
 		this.fallback = fallback;
 	}
@@ -33,12 +33,12 @@ public class InstanceService {
 	 * and a fallback is configured.
 	 *
 	 * @return the instance ID
-	 * @throws InstanceIdAWSException if the instance ID cannot be determined and no fallback is configured
+	 * @throws AWSInstanceIdException if the instance ID cannot be determined and no fallback is configured
 	 */
 	public String instanceId() {
 		try {
 			return this.service.instanceId();
-		} catch (InstanceIdAWSException e) {
+		} catch (AWSInstanceIdException e) {
 			if (this.fallback == null) {
 				throw e;
 			}
@@ -53,7 +53,7 @@ public class InstanceService {
 
 		private final InstanceServiceInterface instanceService;
 
-		private Function<InstanceIdAWSException, String> fallback;
+		private Function<AWSInstanceIdException, String> fallback;
 
 		private Builder(InstanceServiceInterface instanceService) {
 			this.instanceService = instanceService;
@@ -65,7 +65,7 @@ public class InstanceService {
 		 * @param fallback receives the exception and returns the instance ID to use instead
 		 * @return this builder
 		 */
-		public Builder fallback(Function<InstanceIdAWSException, String> fallback) {
+		public Builder fallback(Function<AWSInstanceIdException, String> fallback) {
 			this.fallback = fallback;
 			return this;
 		}

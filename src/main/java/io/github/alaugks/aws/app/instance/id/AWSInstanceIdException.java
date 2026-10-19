@@ -8,14 +8,14 @@ package io.github.alaugks.aws.app.instance.id;
  * <p>
  * This is an unchecked exception. Where available, the original error is attached as cause.
  */
-public class InstanceIdAWSException extends RuntimeException {
+public class AWSInstanceIdException extends RuntimeException {
 
 	/**
 	 * Creates an exception with the given message.
 	 *
 	 * @param message the detail message
 	 */
-	public InstanceIdAWSException(String message) {
+	public AWSInstanceIdException(String message) {
 		super(message);
 	}
 
@@ -25,7 +25,7 @@ public class InstanceIdAWSException extends RuntimeException {
 	 * @param message the detail message
 	 * @param cause   the original error
 	 */
-	public InstanceIdAWSException(String message, Throwable cause) {
+	public AWSInstanceIdException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }

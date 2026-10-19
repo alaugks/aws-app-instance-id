@@ -2,7 +2,7 @@
 
 package io.github.alaugks.aws.app.instance.id.service;
 
-import io.github.alaugks.aws.app.instance.id.InstanceIdAWSException;
+import io.github.alaugks.aws.app.instance.id.AWSInstanceIdException;
 import io.github.alaugks.aws.app.instance.id.InstanceServiceInterface;
 import java.io.IOException;
 import java.net.URI;
@@ -51,20 +51,20 @@ public class FargateInstanceService implements InstanceServiceInterface {
 	 * Returns the task ID from the ECS Task Metadata Endpoint.
 	 *
 	 * @return the task ID
-	 * @throws InstanceIdAWSException if the task ID cannot be determined
+	 * @throws AWSInstanceIdException if the task ID cannot be determined
 	 */
 	@Override
 	public String instanceId() {
 		if (this.taskRequest == null) {
-			throw new InstanceIdAWSException("Environment variable " + METADATA_URI_ENV + " is not set");
+			throw new AWSInstanceIdException("Environment variable " + METADATA_URI_ENV + " is not set");
 		}
 		try {
 			return this.fetchTaskId();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			throw new InstanceIdAWSException("Interrupted while fetching the task ID", e);
+			throw new AWSInstanceIdException("Interrupted while fetching the task ID", e);
 		} catch (IOException e) {
-			throw new InstanceIdAWSException("Could not fetch the task ID: " + e.getMessage(), e);
+			throw new AWSInstanceIdException("Could not fetch the task ID: " + e.getMessage(), e);
 		}
 	}
 
@@ -73,11 +73,11 @@ public class FargateInstanceService implements InstanceServiceInterface {
 		HttpRequest request = this.taskRequest.copy().build();
 		HttpResponse<String> response = this.client.send(request, HttpResponse.BodyHandlers.ofString());
 		if (response.statusCode() != 200) {
-			throw new InstanceIdAWSException("Unexpected status " + response.statusCode() + " from " + request.uri());
+			throw new AWSInstanceIdException("Unexpected status " + response.statusCode() + " from " + request.uri());
 		}
 		Matcher matcher = TASK_ARN.matcher(response.body());
 		if (!matcher.find()) {
-			throw new InstanceIdAWSException("No TaskARN in the response from " + request.uri());
+			throw new AWSInstanceIdException("No TaskARN in the response from " + request.uri());
 		}
 		String taskArn = matcher.group(1);
 		return taskArn.substring(taskArn.lastIndexOf('/') + 1);
@@ -108,7 +108,7 @@ public class FargateInstanceService implements InstanceServiceInterface {
 
 		/**
 		 * Sets the timeout for connecting and for the response. Defaults to 1 second. If exceeded, an
-		 * {@link InstanceIdAWSException} is thrown.
+		 * {@link AWSInstanceIdException} is thrown.
 		 *
 		 * @param timeout the timeout
 		 * @return this builder

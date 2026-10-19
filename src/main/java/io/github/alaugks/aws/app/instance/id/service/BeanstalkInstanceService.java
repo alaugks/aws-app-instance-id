@@ -2,7 +2,7 @@
 
 package io.github.alaugks.aws.app.instance.id.service;
 
-import io.github.alaugks.aws.app.instance.id.InstanceIdAWSException;
+import io.github.alaugks.aws.app.instance.id.AWSInstanceIdException;
 import io.github.alaugks.aws.app.instance.id.InstanceServiceInterface;
 import java.io.IOException;
 import java.net.URI;
@@ -52,7 +52,7 @@ public class BeanstalkInstanceService implements InstanceServiceInterface {
 	 * Returns the EC2 instance ID from the metadata service (IMDSv2).
 	 *
 	 * @return the EC2 instance ID
-	 * @throws InstanceIdAWSException if the instance ID cannot be determined
+	 * @throws AWSInstanceIdException if the instance ID cannot be determined
 	 */
 	@Override
 	public String instanceId() {
@@ -60,9 +60,9 @@ public class BeanstalkInstanceService implements InstanceServiceInterface {
 			return this.fetchInstanceId(this.fetchIMDSToken());
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			throw new InstanceIdAWSException("Interrupted while fetching the instance ID", e);
+			throw new AWSInstanceIdException("Interrupted while fetching the instance ID", e);
 		} catch (IOException e) {
-			throw new InstanceIdAWSException("Could not fetch the instance ID: " + e.getMessage(), e);
+			throw new AWSInstanceIdException("Could not fetch the instance ID: " + e.getMessage(), e);
 		}
 	}
 
@@ -80,7 +80,7 @@ public class BeanstalkInstanceService implements InstanceServiceInterface {
 	private String send(HttpRequest request) throws IOException, InterruptedException {
 		HttpResponse<String> response = this.client.send(request, HttpResponse.BodyHandlers.ofString());
 		if (response.statusCode() != 200) {
-			throw new InstanceIdAWSException("Unexpected status " + response.statusCode() + " from " + request.uri());
+			throw new AWSInstanceIdException("Unexpected status " + response.statusCode() + " from " + request.uri());
 		}
 		return response.body();
 	}
@@ -99,7 +99,7 @@ public class BeanstalkInstanceService implements InstanceServiceInterface {
 
 		/**
 		 * Sets the timeout for connecting and for each response. Defaults to 1 second. If exceeded, an
-		 * {@link InstanceIdAWSException} is thrown.
+		 * {@link AWSInstanceIdException} is thrown.
 		 *
 		 * @param timeout the timeout
 		 * @return this builder
