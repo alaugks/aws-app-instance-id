@@ -1,0 +1,3 @@
+[submodule "aws-it"]
+	path = aws-it
+	url = git@github.com:alaugks/aws-app-instance-id-aws-integration-test.git
