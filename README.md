@@ -1,8 +1,8 @@
 # App Instance ID for AWS
 
-This package provides a unique instance ID for applications running on AWS Elastic Beanstalk (EC2) or AWS Fargate, e.g. to tell the instances of a horizontally scaled application apart in logs, caches or job locks.
+This package provides a unique instance ID for applications running on AWS Elastic Beanstalk (EC2) or AWS Fargate (ECS), e.g. to tell the instances of a horizontally scaled application apart in logs, caches or job locks.
 
-[![Quality gate status](https://sonarcloud.io/api/project_badges/measure?project=alaugks_aws-app-instance-id&metric=alert_status&token=c69bd624e8f32e3588f05b73f3f624878fa05932)](https://sonarcloud.io/summary/new_code?id=alaugks_aws-app-instance-id)
+[![Quality gate status](https://sonarcloud.io/api/project_badges/measure?project=alaugks_aws-app-instance-id&metric=alert_status&token=c69bd624e8f32e3588f05b73f3f624878fa05932)](https://sonarcloud.io/summary/overall?id=alaugks_aws-app-instance-id&branch=main)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.alaugks/aws-app-instance-id.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.alaugks/aws-app-instance-id)
 
 ## Table of Contents
