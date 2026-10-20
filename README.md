@@ -58,10 +58,11 @@ Retrieves the instance ID via the EC2 Instance Metadata Service (IMDSv2). Elasti
 
 Created via `BeanstalkInstanceService.builder()`. The requests to the metadata service have a timeout of 1 second by default.
 
-| Method                      | Default   | Description                                                      |
-|-----------------------------|-----------|------------------------------------------------------------------|
-| `timeout(Duration timeout)` | 1 second  | Timeout for connecting to and for each response of the service.  |
-| `build()`                   | —         | Builds the service.                                              |
+| Method                      | Default  | Description                                                     |
+|-----------------------------|----------|-----------------------------------------------------------------|
+| `builder()`                 | —        | Entry point                                                     |
+| `timeout(Duration timeout)` | 1 second | Timeout for connecting to and for each response of the service. |
+| `build()`                   | —        | Builds the service.                                             |
 
 #### Usage
 
@@ -86,10 +87,11 @@ If the environment variable is not set (the application does not run on ECS), an
 
 Created via `FargateInstanceService.builder()`. The request to the metadata endpoint has a timeout of 1 second by default.
 
-| Method                      | Default   | Description                                                                |
-|-----------------------------|-----------|----------------------------------------------------------------------------|
-| `timeout(Duration timeout)` | 1 second  | Timeout for connecting to and for the response of the metadata endpoint.   |
-| `build()`                   | —         | Builds the service.                                                        |
+| Method                      | Default  | Description                                                              |
+|-----------------------------|----------|--------------------------------------------------------------------------|
+| `builder()`                 | —        | Entry point                                                              |
+| `timeout(Duration timeout)` | 1 second | Timeout for connecting to and for the response of the metadata endpoint. |
+| `build()`                   | —        | Builds the service.                                                      |
 
 #### Usage
 
