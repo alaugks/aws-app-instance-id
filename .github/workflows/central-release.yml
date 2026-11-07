@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - 'snapshot/*'
+    paths-ignore:
+      - '**/*.md'
 jobs:
   release:
     name: Release

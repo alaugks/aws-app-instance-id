@@ -17,7 +17,8 @@ This package provides a unique instance ID for applications running on AWS Elast
   - [FargateInstanceService](#fargateinstanceservice)
     - [Usage](#usage-1)
   - [MockInstanceService](#mockinstanceservice)
-- [InstanceService and Error Handling](#instanceservice-and-error-handling)
+- [InstanceService](#instanceservice)
+  - [Error Handling and Fallback](#error-handling-and-fallback)
 - [Example Spring Configuration](#example-spring-configuration)
   - [Beanstalk](#beanstalk)
   - [Fargate](#fargate)
@@ -114,20 +115,31 @@ Returns a configurable mock instance ID. Suitable for local development and test
 MockInstanceService.builder("mock-instance-id").build();
 ```
 
-## InstanceService and Error Handling
+## InstanceService
 
-The instance services throw an `AWSInstanceIdException` if the instance ID cannot be determined, including when the timeout is exceeded. It is an unchecked exception (`RuntimeException`) and, where available, carries the original error as cause. The library does not log.
+`InstanceService` wraps an instance service and optionally accepts a fallback via `fallback(Function<AWSInstanceIdException, String>)`. The fallback receives the exception and returns the ID to use instead.
 
-`InstanceService` wraps an instance service and optionally accepts a fallback via `fallback(...)`. The fallback receives the exception and returns the ID to use instead:
+The library has no dependency on Spring and works in any Java application. The Spring configuration below is only an example.
+
+Default configuration without fallback:
 
 ```java
-// Throws AWSInstanceIdException if the ID cannot be determined
-InstanceService strict = InstanceService
+InstanceService instanceService = InstanceService
     .builder(
         BeanstalkInstanceService.builder().build()
     )
     .build();
 
+String instanceId = instanceService.instanceId();
+```
+
+### Error Handling and Fallback
+
+The instance services throw an `AWSInstanceIdException` if the instance ID cannot be determined, including when the timeout is exceeded. It is an unchecked exception (`RuntimeException`) and, where available, carries the original error as cause. The library does not log.
+
+Without a fallback the exception is propagated. With a fallback, its return value is used as the ID instead:
+
+```java
 // Returns the fallback ID instead of throwing
 InstanceService withFallback = InstanceService
     .builder(
