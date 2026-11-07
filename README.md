@@ -156,7 +156,7 @@ InstanceService withFallback = InstanceService
 ## InstanceService in Spring Configuration
 
 * On `prod` and `stage` the instance ID is determined by AWS.
-* On `dev` and `test` a mock instance ID is used.
+* On `dev` and `test` a mock instance ID is used, e.g. for local development, tests and CI pipelines.
 
 The example uses `FargateInstanceService`. The setup is the same for Beanstalk: replace `FargateInstanceService` with `BeanstalkInstanceService`.
 
