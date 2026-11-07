@@ -174,7 +174,7 @@ public class AwsInstanceConfig {
 	
     @Bean
     @Profile({"prod", "stage"})
-    public InstanceService awsProdInstanceService() {
+    public InstanceService awsInstanceService() {
         return InstanceService
             .builder(
                 FargateInstanceService.builder().build()
@@ -188,7 +188,7 @@ public class AwsInstanceConfig {
 
     @Bean
     @Profile({"dev", "test"})
-    public InstanceService mockTestInstanceService() {
+    public InstanceService awsMockInstanceService() {
         return InstanceService
             .builder(
                 MockInstanceService.builder("mock-" + UUID.randomUUID()).build()
