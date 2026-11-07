@@ -11,7 +11,7 @@ This package provides a unique instance ID for applications running on AWS Elast
 - [Dependency](#dependency)
   - [Maven](#maven)
   - [Gradle](#gradle)
-- [Instance Services](#instance-services)
+- [Implementations](#implementations)
   - [BeanstalkInstanceService](#beanstalkinstanceservice)
     - [Usage](#usage)
   - [FargateInstanceService](#fargateinstanceservice)
@@ -52,7 +52,7 @@ An instance service determines the instance ID for the platform the application 
 implementation group: 'io.github.alaugks', name: 'aws-app-instance-id', version: '0.1.0'
 ```
 
-## Instance Services
+## Implementations
 
 ### BeanstalkInstanceService
 
@@ -117,7 +117,7 @@ MockInstanceService.builder("mock-instance-id").build();
 
 ## InstanceService
 
-`InstanceService` wraps an instance service and optionally accepts a fallback via `fallback(Function<AWSInstanceIdException, String>)`. The fallback receives the exception and returns the ID to use instead.
+`InstanceService` is the entry point of the library. It is created with one of the instance services above and returns the instance ID via `instanceId()`.
 
 The library has no dependency on Spring and works in any Java application. The Spring configuration below is only an example.
 
@@ -137,7 +137,7 @@ String instanceId = instanceService.instanceId();
 
 The instance services throw an `AWSInstanceIdException` if the instance ID cannot be determined, including when the timeout is exceeded. It is an unchecked exception (`RuntimeException`) and, where available, carries the original error as cause. The library does not log.
 
-Without a fallback the exception is propagated. With a fallback, its return value is used as the ID instead:
+Without a fallback the exception is propagated. Optionally, a fallback can be set via `fallback(Function<AWSInstanceIdException, String>)`. It receives the exception and its return value is used as the ID instead:
 
 ```java
 // Returns the fallback ID instead of throwing
