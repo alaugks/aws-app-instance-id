@@ -19,9 +19,7 @@ This package provides a unique instance ID for applications running on AWS Elast
   - [MockInstanceService](#mockinstanceservice)
 - [InstanceService](#instanceservice)
   - [Error Handling and Fallback](#error-handling-and-fallback)
-- [Example Spring Configuration](#example-spring-configuration)
-  - [Beanstalk](#beanstalk)
-  - [Fargate](#fargate)
+- [InstanceService in Spring Configuration](#instanceservice-in-spring-configuration)
 - [License](#license)
 
 ## How it works
@@ -155,52 +153,12 @@ InstanceService withFallback = InstanceService
 > [!TIP]
 > Create the fallback ID once (as above) if it should stay stable for the lifetime of the application.
 
-## Example Spring Configuration
+## InstanceService in Spring Configuration
 
 * On `prod` and `stage` the instance ID is determined by AWS.
 * On `dev` and `test` a mock instance ID is used.
 
-### Beanstalk
-
-```java
-import io.github.alaugks.aws.app.instance.id.InstanceService;
-import io.github.alaugks.aws.app.instance.id.service.BeanstalkInstanceService;
-import io.github.alaugks.aws.app.instance.id.service.MockInstanceService;
-import java.util.UUID;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-
-@Configuration
-public class AwsInstanceConfig {
-	
-    @Bean
-    @Profile({"prod", "stage"})
-    public InstanceService awsProdInstanceService() {
-        return InstanceService
-            .builder(
-                BeanstalkInstanceService.builder().build()
-            )
-            .fallback(e -> {
-                log.warn("Could not determine instance ID", e);
-                return "instance-" + UUID.randomUUID();
-            })
-            .build();
-    }
-
-    @Bean
-    @Profile({"dev", "test"})
-    public InstanceService mockTestInstanceService() {
-        return InstanceService
-            .builder(
-                MockInstanceService.builder("mock-" + UUID.randomUUID()).build()
-            )
-            .build();
-    }
-}
-```
-
-### Fargate
+The example uses `FargateInstanceService`. The setup is the same for Beanstalk: replace `FargateInstanceService` with `BeanstalkInstanceService`.
 
 ```java
 import io.github.alaugks.aws.app.instance.id.InstanceService;
