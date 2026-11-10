@@ -41,14 +41,14 @@ An instance service determines the instance ID for the platform the application 
 <dependency>
     <groupId>io.github.alaugks</groupId>
     <artifactId>aws-app-instance-id</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```text
-implementation group: 'io.github.alaugks', name: 'aws-app-instance-id', version: '0.1.0'
+implementation group: 'io.github.alaugks', name: 'aws-app-instance-id', version: '0.2.0'
 ```
 
 ## Implementations
