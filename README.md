@@ -18,13 +18,14 @@ This package provides a unique instance ID for applications running on AWS Elast
     - [Usage](#usage-1)
   - [MockInstanceService](#mockinstanceservice)
 - [InstanceService](#instanceservice)
+  - [Working with the Instance ID](#working-with-the-instance-id)
   - [Error Handling and Fallback](#error-handling-and-fallback)
 - [InstanceService in Spring Configuration](#instanceservice-in-spring-configuration)
 - [License](#license)
 
 ## How it works
 
-An instance service determines the instance ID for the platform the application runs on. `InstanceService` wraps an instance service and optionally replaces the ID with a fallback if it cannot be determined.
+An instance service determines the instance ID for the platform the application runs on. `InstanceService` wraps an instance service, optionally lets you work with the determined ID (e.g. to log it) and optionally replaces the ID with a fallback if it cannot be determined.
 
 | Instance service           | Platform                          | Source of the instance ID                              |
 |----------------------------|-----------------------------------|--------------------------------------------------------|
@@ -131,6 +132,21 @@ InstanceService instanceService = InstanceService
 String instanceId = instanceService.instanceId();
 ```
 
+### Working with the Instance ID
+
+Optionally, a callback can be set via `onInstanceId(Consumer<String>)`. It receives the instance ID each time it was determined successfully, e.g. to log it:
+
+```java
+InstanceService instanceService = InstanceService
+    .builder(
+        BeanstalkInstanceService.builder().build()
+    )
+    .onInstanceId(id -> log.info("InstanceId: {}", id))
+    .build();
+```
+
+The callback does not change the instance ID. It is not called when the fallback is used (see below).
+
 ### Error Handling and Fallback
 
 The instance services throw an `AWSInstanceIdException` if the instance ID cannot be determined, including when the timeout is exceeded. It is an unchecked exception (`RuntimeException`) and, where available, carries the original error as cause. The library does not log.
@@ -139,13 +155,15 @@ Without a fallback the exception is propagated. Optionally, a fallback can be se
 
 ```java
 // Returns the fallback ID instead of throwing
+String fallbackId = "instance-" + UUID.randomUUID();
+
 InstanceService withFallback = InstanceService
     .builder(
         BeanstalkInstanceService.builder().build()
     )
     .fallback(e -> {
         log.warn("Could not determine instance ID", e);
-        return "instance-" + UUID.randomUUID();
+        return fallbackId;
     })
     .build();
 ```
@@ -165,23 +183,32 @@ import io.github.alaugks.aws.app.instance.id.InstanceService;
 import io.github.alaugks.aws.app.instance.id.service.FargateInstanceService;
 import io.github.alaugks.aws.app.instance.id.service.MockInstanceService;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class AwsInstanceConfig {
-	
+
+    private static final Logger log = LoggerFactory.getLogger(AwsInstanceConfig.class);
+
     @Bean
     @Profile({"prod", "stage"})
     public InstanceService awsInstanceService() {
+        String fallbackId = "instance-" + UUID.randomUUID();
+
         return InstanceService
             .builder(
                 FargateInstanceService.builder().build()
             )
+            .onInstanceId(
+                id -> log.info("InstanceId: {}", id)
+            )
             .fallback(e -> {
                 log.warn("Could not determine instance ID", e);
-                return "instance-" + UUID.randomUUID();
+                return fallbackId;
             })
             .build();
     }
@@ -192,6 +219,9 @@ public class AwsInstanceConfig {
         return InstanceService
             .builder(
                 MockInstanceService.builder("mock-" + UUID.randomUUID()).build()
+            )
+            .onInstanceId(
+                id -> log.info("InstanceId: {}", id)
             )
             .build();
     }

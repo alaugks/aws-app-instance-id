@@ -12,3 +12,4 @@ target/
 
 ### Custom ###
 *.log
+/docs

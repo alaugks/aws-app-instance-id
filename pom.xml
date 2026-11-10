@@ -6,12 +6,12 @@
     <parent>
         <groupId>io.github.alaugks</groupId>
         <artifactId>parent</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <relativePath/>
     </parent>
 
     <artifactId>aws-app-instance-id</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <packaging>jar</packaging>
     <name>aws-app-instance-id</name>
     <description>Provides a unique instance ID for applications running on AWS Elastic Beanstalk or AWS Fargate.</description>
