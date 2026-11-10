@@ -56,6 +56,15 @@ class InstanceServiceTest {
     }
 
     @Test
+    void test_instanceId_shouldReturnId_whenNoCallbackIsConfigured() {
+        InstanceServiceInterface service = () -> "foobar";
+
+        InstanceService instanceService = InstanceService.builder(service).build();
+
+        assertThat(instanceService.instanceId()).isEqualTo("foobar");
+    }
+
+    @Test
     void test_instanceId_shouldRethrow_whenNoFallbackIsConfigured() {
         InstanceService service = InstanceService.builder(failing()).build();
 
